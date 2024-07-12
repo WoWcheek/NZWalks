@@ -1,3 +1,4 @@
+using Serilog;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
@@ -9,8 +10,18 @@ using NZWalks.API.Data;
 using NZWalks.API.Mappings;
 using NZWalks.API.Repositories;
 using Microsoft.Extensions.FileProviders;
+using NZWalks.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("/Logs/NZWalks_Log.txt", rollingInterval: RollingInterval.Day)
+    .MinimumLevel.Information()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers();
 
@@ -105,6 +116,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandleMiddleware>();
 
 app.UseHttpsRedirection();
 

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 using NZWalks.API.Models.DTO;
-using NZWalks.API.Models.Domain;
 using NZWalks.API.Repositories;
+using NZWalks.API.Models.Domain;
 using NZWalks.API.CustomActionFilters;
 
 namespace NZWalks.API.Controllers
